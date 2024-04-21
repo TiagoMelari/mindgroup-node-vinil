@@ -1,5 +1,6 @@
 import express from 'express';
 import connection from '../../middlewares/conectarMySQL';
+import '../../types/express';
 
 const app = express();
 const PORTA = 3001;
