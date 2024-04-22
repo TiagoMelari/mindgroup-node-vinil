@@ -14,24 +14,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const conectarMySQL_1 = __importDefault(require("../../middlewares/conectarMySQL"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const router = express_1.default.Router();
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, senha } = req.body;
     conectarMySQL_1.default.connect();
-    const query = `SELECT * FROM usuarios WHERE email = '${email}' AND senha = '${senha}'`;
-    conectarMySQL_1.default.query(query, (error, resposta) => {
+    const query = `SELECT * FROM usuarios WHERE email = ?`;
+    conectarMySQL_1.default.query(query, [email], (error, resposta) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             res.status(500).json({ message: 'Erro ao consultar o banco de dados' });
+            return;
+        }
+        if (resposta.length === 0) {
+            res.status(401).json({ message: 'Credenciais inválidas.' });
+            return;
+        }
+        const usuario = resposta[0];
+        const senhaCorreta = yield bcrypt_1.default.compare(senha, usuario.senha);
+        if (senhaCorreta) {
+            res.status(200).json({ message: 'Login realizado com sucesso!' });
         }
         else {
-            if (resposta.length > 0) {
-                res.status(200).json({ message: 'Login  realizado com sucesso!' });
-            }
-            else {
-                res.status(401).json({ message: 'Credenciais inválidas.' });
-            }
+            res.status(401).json({ message: 'Credenciais inválidas.' });
         }
-    });
+    }));
     conectarMySQL_1.default.end();
 }));
 exports.default = router;
