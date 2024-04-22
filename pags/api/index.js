@@ -12,7 +12,6 @@ app.use((req, res, next) => {
     req.mysql = conectarMySQL_1.default;
     next();
 });
-console.log('nada nada');
 app.get('/', (req, res) => {
     console.log('Han?');
     res.send('Olá TypeScript');

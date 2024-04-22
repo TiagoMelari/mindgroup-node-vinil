@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mysql_1 = __importDefault(require("mysql"));
 const connection = mysql_1.default.createConnection({
     host: 'localhost',
-    user: 'usuario',
-    password: 'senha',
-    database: 'banco_de_dados',
+    user: 'admin',
+    password: 'admin',
+    database: 'vinil_estq',
 });
 connection.connect((err) => {
     if (err) {

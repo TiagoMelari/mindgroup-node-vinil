@@ -10,8 +10,6 @@ app.use((req, res, next) => {
     next();
 });
 
-console.log('nada nada');
-
 app.get('/', (req, res) => {
     console.log('Han?');
     res.send('Olá TypeScript');

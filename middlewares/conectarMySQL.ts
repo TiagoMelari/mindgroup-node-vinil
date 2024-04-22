@@ -2,9 +2,9 @@ import mysql from 'mysql';
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'usuario',
-    password: 'senha',
-    database: 'banco_de_dados',
+    user: 'admin',
+    password: 'admin',
+    database: 'vinil_estq',
 });
 
 connection.connect((err) => {
