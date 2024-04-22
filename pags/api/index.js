@@ -8,12 +8,10 @@ const conectarMySQL_1 = __importDefault(require("../../middlewares/conectarMySQL
 const app = (0, express_1.default)();
 const PORTA = 3001;
 app.use((req, res, next) => {
-    console.log('Middleware executado');
     req.mysql = conectarMySQL_1.default;
     next();
 });
 app.get('/', (req, res) => {
-    console.log('Han?');
     res.send('Olá TypeScript');
 });
 app.listen(PORTA, () => {
