@@ -1,9 +1,9 @@
 import express from 'express';
 import connection from '../../middlewares/conectarMySQL';
 
-const router = express.Router();
+const estoqueRouter = express.Router();
 
-router.get('/estoque', (req, res) => {
+estoqueRouter.get('/', (req, res) => {
     const query = 'SELECT * FROM produtos';
     connection.query(query, (error, resultados) => {
         if (error) {
@@ -14,7 +14,7 @@ router.get('/estoque', (req, res) => {
 });
 
 
-router.get('/estoque/:id', (req, res) => {
+estoqueRouter.get('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM produtos WHERE produto_id = ?';
     connection.query(query, [id], (error, resultado) => {
@@ -29,10 +29,12 @@ router.get('/estoque/:id', (req, res) => {
 });
 
 
-router.post('/estoque' ,(req, res) => {
+estoqueRouter.post('/' ,(req, res) => {
     const { nome, descricao, imagem, valor, qtd_estoque } = req.body;
+    const valorFormatado = parseFloat(valor).toFixed(2);
+    const valorFinal = parseFloat(valorFormatado);
     const query = 'INSERT INTO produtos (nome, descricao, imagem, valor, qtd_estoque) VALUES (?, ?, ?, ? ,?)';
-    connection.query(query, [nome, descricao, imagem, valor, qtd_estoque], (error, resultado) => {
+    connection.query(query, [nome, descricao, imagem, valorFinal, qtd_estoque], (error, resultado) => {
         if (error) {
             return res.status(500).json({ message: 'Erro ao cadastrar o produto!'});
         }
@@ -40,19 +42,23 @@ router.post('/estoque' ,(req, res) => {
     })
 });
 
-router.put('/estoque/:id', (req, res) => {
+estoqueRouter.put('/:id', (req, res) => {
     const { id } = req.params;
     const { nome, descricao, imagem, valor, qtd_estoque } = req.body;
+    const valorFormatado = parseFloat(valor).toFixed(2);
+    const valorFinal = parseFloat(valorFormatado);
     const query = 'UPDATE produtos SET nome = ?, descricao = ?, imagem = ?, valor = ?, qtd_estoque = ? WHERE produto_id = ?';
-    connection.query(query, [nome, descricao, imagem, valor, qtd_estoque, id], (error, resultado) => {
+    connection.query(query, [nome, descricao, imagem, valorFinal, qtd_estoque, id], (error, resultado) => {
         if (error) {
+            console.log('Erro ao atualizar o produto:', error)
             return res.status(500).json({ message: 'Erro ao atualizar o produto!'});
         }
+        console.log('Produto atualizado com sucesso', resultado)
         res.status(201).json({ message: 'Produto atualizado com sucesso!'});        
     });
 });
 
-router.delete('/estoque/:id', (req, res) => {
+estoqueRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM produtos WHERE produto_id = ?';
     connection.query(query, [id], (error, resultado) => {
@@ -63,4 +69,4 @@ router.delete('/estoque/:id', (req, res) => {
     })
 });
 
-export default router;
+export default estoqueRouter;

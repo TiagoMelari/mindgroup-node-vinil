@@ -2,9 +2,9 @@ import express from 'express';
 import connection from '../../middlewares/conectarMySQL';
 import bcrypt from 'bcrypt';
 
-const router = express.Router();
+const loginRouter = express.Router();
 
-router.post('/login', async (req, res) => {
+loginRouter.post('/', async (req, res) => {
     const { email, senha} = req.body;
 
     connection.connect();
@@ -34,4 +34,4 @@ router.post('/login', async (req, res) => {
     connection.end();
 });
 
-export default router;
+export default loginRouter;

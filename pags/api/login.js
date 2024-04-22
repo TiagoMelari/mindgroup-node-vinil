@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const conectarMySQL_1 = __importDefault(require("../../middlewares/conectarMySQL"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const router = express_1.default.Router();
-router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const loginRouter = express_1.default.Router();
+loginRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, senha } = req.body;
     conectarMySQL_1.default.connect();
     const query = `SELECT * FROM usuarios WHERE email = ?`;
@@ -40,4 +40,4 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }));
     conectarMySQL_1.default.end();
 }));
-exports.default = router;
+exports.default = loginRouter;

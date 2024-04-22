@@ -42,3 +42,5 @@ router.post('/cadastro', async (req, res) => {
     }
     
 });
+
+export default router;

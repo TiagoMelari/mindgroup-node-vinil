@@ -48,3 +48,4 @@ router.post('/cadastro', (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(500).json({ erro: 'Erro ao cadastrar usuario' });
     }
 }));
+exports.default = router;
