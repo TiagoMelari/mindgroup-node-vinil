@@ -10,6 +10,7 @@ loginRouter.post('/', async (req, res) => {
     connection.connect();
 
     const query = `SELECT * FROM usuarios WHERE email = ?`;
+    
     connection.query(query, [email], async (error, resposta) => {
         if (error) {
             res.status(500).json({ message: 'Erro ao consultar o banco de dados' });
